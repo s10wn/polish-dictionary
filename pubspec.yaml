@@ -35,12 +35,13 @@ dependencies:
     # Use with the CupertinoIcons class for iOS style icons.
     cupertino_icons: ^1.0.2
     flutter_launcher_icons: ^0.13.1
-    flutter_splash_screen: ^1.0.0+6
-    animated_bottom_navigation_bar: ^1.2.0
-    floating_bottom_navigation_bar: ^1.5.2
     salomon_bottom_bar: ^3.3.2
-    fluent_appbar: ^2.0.0
     animation_search_bar: ^0.0.10
+    fluent_appbar: ^2.0.0
+    google_fonts: ^4.0.4
+    very_good_infinite_list: ^0.7.0
+    paginable: ^2.0.0
+    babstrap_settings_screen: ^0.1.5+1
 
 dev_dependencies:
     flutter_test:

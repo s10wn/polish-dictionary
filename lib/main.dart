@@ -29,35 +29,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: MyApp.title,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size(double.infinity, 65),
-          child: SafeArea(
-            child: Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 0.5,
-                  ),
-                ),
-              ),
-              alignment: Alignment.center,
-              child: AnimationSearchBar(
-                  isBackButtonVisible: false,
-                  backIconColor: Colors.black,
-                  centerTitle: 'App Title',
-                  onChanged: (text) {
-                    print(text);
-                  },
-                  searchTextEditingController: controller,
-                  horizontalPadding: 5),
-            ),
-          ),
+        appBar: AppBar(
+          title: Text("POLISH"),
         ),
         body: IndexedStack(
           index: _currentIndex,
