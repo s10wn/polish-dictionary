@@ -43,6 +43,13 @@ dependencies:
     paginable: ^2.0.0
     babstrap_settings_screen: ^0.1.5+1
     shared_preferences: ^2.1.1
+    cupertino_stepper: ^0.2.1
+    cool_stepper_reloaded: ^3.2.6
+    ripple_button: ^3.4.1
+    linear_step_indicator: ^1.0.0+3
+    enhance_stepper: ^0.1.1
+    tuple: ^2.0.1
+    animated_custom_dropdown: ^1.5.0
 
 dev_dependencies:
     flutter_test:
