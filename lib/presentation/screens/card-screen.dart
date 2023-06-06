@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:polish_dictionary/presentation/widgets/word-item.dart';
+import 'package:polish_dictionary/data/repositories/dataRepository.dart';
+import 'package:polish_dictionary/domain/models/WordItem.dart';
+import 'package:polish_dictionary/domain/repositories/sharedDataRepository.dart';
+import 'package:polish_dictionary/presentation/widgets/word.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({super.key});
@@ -14,10 +17,7 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
-  var _currentIndex = 0;
   late TextEditingController controller;
-  final ScrollController _firstController = ScrollController();
-
   @override
   void initState() {
     super.initState();
@@ -26,6 +26,32 @@ class _CardScreenState extends State<CardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isFavorite = false;
+    DataRepository repository = SharedPreferencesRepository();
+
+    void addWord() async {
+      List<WordItem> wordList = await repository.loadData();
+
+      // Создаем новое слово
+      WordItem newWord = WordItem(
+        sound: 'sound4.mp3',
+        text: 'zxczxc',
+        translate: 'Пример',
+      );
+
+      // Проверяем наличие нового слова в списке
+      bool wordExists = wordList.any((word) => word.text == newWord.text);
+
+      if (!wordExists) {
+        // Добавляем новое слово только если оно не существует в списке
+        wordList.add(newWord);
+        await repository.saveData(wordList);
+        debugPrint(wordList.toString());
+      } else {
+        debugPrint('Слово уже существует в списке');
+      }
+    }
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size(double.infinity, 65),
@@ -53,54 +79,22 @@ class _CardScreenState extends State<CardScreen> {
         ),
       ),
       body: SafeArea(
-        child: Scrollbar(
-          thumbVisibility: true,
-          controller: _firstController,
-          child: ListView.builder(
-              physics: ClampingScrollPhysics(),
-              controller: _firstController,
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        children: [
-                          CupertinoButton(
-                              child: const Icon(Icons.volume_up),
-                              onPressed: () => {}),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Polish Word",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500)),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "English Word",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    const Divider(
-                      thickness: 1.2,
-                    ),
-                  ],
-                );
-              }),
+        child: FutureBuilder<List<WordItem>>(
+          future: repository.loadData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator(); // Отображаем индикатор загрузки, пока данные загружаются
+            } else if (snapshot.hasError) {
+              return Text(
+                  'Ошибка загрузки данных'); // Выводим сообщение об ошибке, если произошла ошибка загрузки
+            } else {
+              List<WordItem> wordList = snapshot.data ?? [];
+              return WordListWidget(
+                wordList: wordList,
+                repository: repository,
+              ); // Отображаем список слов с помощью WordListWidget
+            }
+          },
         ),
       ),
     );
