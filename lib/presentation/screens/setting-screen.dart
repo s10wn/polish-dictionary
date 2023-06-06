@@ -24,10 +24,7 @@ class SettingScreen extends StatelessWidget {
           child: ListView(
             children: [
               // user card
-              SimpleUserCard(
-                userName: "Nom de l'utilisateur",
-                userProfilePic: AssetImage("assets/profilpic.png"),
-              ),
+
               SettingsGroup(
                 items: [
                   SettingsItem(
