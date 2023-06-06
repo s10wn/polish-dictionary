@@ -7,53 +7,53 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white.withOpacity(.94),
-        appBar: AppBar(
-          title: Text(
-            "Settings",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: Padding(
+    return Scaffold(
+      backgroundColor: Colors.white.withOpacity(.94),
+      body: Center(
+        child: Padding(
           padding: const EdgeInsets.all(10),
-          child: ListView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // user card
-
+              Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(color: Colors.red),
+                child: Center(child: Text("ADS")),
+              ),
+              SizedBox(
+                height: 50,
+              ),
               SettingsGroup(
                 items: [
                   SettingsItem(
-                    onTap: () {},
-                    icons: CupertinoIcons.pencil_outline,
+                    onTap: null,
+                    icons: Icons.language_rounded,
                     iconStyle: IconStyle(),
-                    title: 'Appearance',
-                    subtitle: "Make Ziar'App yours",
+                    title: 'Язык интерфейса',
+                    subtitle: "Выберите язык интерфейса",
                   ),
                   SettingsItem(
-                    onTap: () {},
-                    icons: Icons.fingerprint,
+                    onTap: null,
+                    icons: Icons.language_sharp,
                     iconStyle: IconStyle(
                       iconsColor: Colors.white,
                       withBackground: true,
                       backgroundColor: Colors.red,
                     ),
-                    title: 'Privacy',
-                    subtitle: "Lock Ziar'App to improve your privacy",
+                    title: 'Язык перевода',
+                    subtitle: "Выберите язык перевода",
                   ),
                   SettingsItem(
-                    onTap: () {},
+                    onTap: null,
                     icons: Icons.dark_mode_rounded,
                     iconStyle: IconStyle(
                       iconsColor: Colors.white,
                       withBackground: true,
                       backgroundColor: Colors.red,
                     ),
-                    title: 'Dark mode',
+                    title: 'Тема приложения',
                     subtitle: "Automatic",
                     trailing: Switch.adaptive(
                       value: false,
@@ -65,41 +65,17 @@ class SettingScreen extends StatelessWidget {
               SettingsGroup(
                 items: [
                   SettingsItem(
-                    onTap: () {},
-                    icons: Icons.info_rounded,
+                    onTap: null,
+                    icons: Icons.delete_outline,
                     iconStyle: IconStyle(
                       backgroundColor: Colors.purple,
                     ),
-                    title: 'About',
-                    subtitle: "Learn more about Ziar'App",
+                    title: 'Удалить избранное',
+                    subtitle: "Удалить все слова из избранного",
                   ),
                 ],
               ),
               // You can add a settings title
-              SettingsGroup(
-                settingsGroupTitle: "Account",
-                items: [
-                  SettingsItem(
-                    onTap: () {},
-                    icons: Icons.exit_to_app_rounded,
-                    title: "Sign Out",
-                  ),
-                  SettingsItem(
-                    onTap: () {},
-                    icons: CupertinoIcons.repeat,
-                    title: "Change email",
-                  ),
-                  SettingsItem(
-                    onTap: () {},
-                    icons: CupertinoIcons.delete_solid,
-                    title: "Delete account",
-                    titleStyle: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
         ),
