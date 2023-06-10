@@ -1,36 +1,43 @@
-class WordItem {
-  final String sound;
-  final String text;
-  final String translate;
-  bool favorite;
+class Word {
+  int id;
+  String sound;
+  String word;
+  String translation;
+  String category;
+  bool isFavorite;
+  bool isPlaying;
 
-  WordItem({
+  Word({
+    required this.id,
     required this.sound,
-    required this.text,
-    required this.translate,
-    this.favorite = false,
+    required this.word,
+    required this.translation,
+    required this.category,
+    this.isFavorite = false,
+    this.isPlaying = false,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'sound': sound,
-      'text': text,
-      'translate': translate,
-      'favorite': favorite,
+      'word': word,
+      'category': category,
+      'id': id,
+      'isFavorite': isFavorite,
+      'isPlaying': isPlaying,
+      'translation': translation,
     };
   }
 
-  factory WordItem.fromJson(Map<String, dynamic> json) {
-    return WordItem(
+  factory Word.fromJson(Map<String, dynamic> json) {
+    return Word(
       sound: json['sound'],
-      text: json['text'],
-      translate: json['translate'],
-      favorite: json['favorite'],
+      word: json['word'],
+      category: json['category'],
+      id: json['id'],
+      isFavorite: json['isFavorite'],
+      isPlaying: json['isPlaying'],
+      translation: json['translation'],
     );
-  }
-
-  @override
-  String toString() {
-    return 'WordItem(sound: $sound, text: $text, translate: $translate, favorite: $favorite)';
   }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:polish_dictionary/data/repositories/SharedPreferencesRepository.dart';
+import 'package:polish_dictionary/domain/models/WordItem.dart';
+import 'package:polish_dictionary/domain/repositories/DataRepository.dart';
 import 'package:polish_dictionary/presentation/screens/favorite-screen.dart';
 import 'package:polish_dictionary/presentation/screens/home-screen.dart';
 import 'package:polish_dictionary/presentation/screens/setting-screen.dart';
@@ -14,6 +18,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   var _currentIndex = 0;
   late TextEditingController controller;
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +29,17 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("POLISH"),
+        title: Text(
+          "POLISH",
+          style: GoogleFonts.roboto(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 24,
+            letterSpacing: 1.5,
+          ),
+        ),
+        elevation: 1,
+        backgroundColor: Colors.white,
       ),
       body: IndexedStack(
         index: _currentIndex,

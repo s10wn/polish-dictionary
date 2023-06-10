@@ -1,9 +1,22 @@
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:io';
+import 'package:path/path.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
+
+  void restartApp() async {
+    final storage = FlutterSecureStorage();
+    await storage.delete(key: 'wordList');
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +25,8 @@ class SettingScreen extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.end,
+          child: ListView(
+            physics: PageScrollPhysics(),
             children: [
               Container(
                 height: 200,
@@ -62,6 +74,13 @@ class SettingScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              Text(
+                "Для разработчиков",
+                style: GoogleFonts.roboto(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               SettingsGroup(
                 items: [
                   SettingsItem(
@@ -72,6 +91,24 @@ class SettingScreen extends StatelessWidget {
                     ),
                     title: 'Удалить избранное',
                     subtitle: "Удалить все слова из избранного",
+                  ),
+                  SettingsItem(
+                    onTap: () => restartApp(),
+                    icons: Icons.restore,
+                    iconStyle: IconStyle(
+                      backgroundColor: Colors.purple,
+                    ),
+                    title: 'Сброс',
+                    subtitle: "Сброс настроек приложения",
+                  ),
+                  SettingsItem(
+                    onTap: null,
+                    icons: Icons.info_outline,
+                    iconStyle: IconStyle(
+                      backgroundColor: Colors.blueGrey,
+                    ),
+                    title: 'О приложении',
+                    subtitle: "Информация о приложении",
                   ),
                 ],
               ),

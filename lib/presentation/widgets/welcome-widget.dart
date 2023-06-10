@@ -1,8 +1,10 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:cupertino_stepper/cupertino_stepper.dart';
 import 'package:flutter/material.dart';
+import 'package:polish_dictionary/domain/models/WordItem.dart';
 import 'package:polish_dictionary/presentation/screens/main-screen.dart';
 import 'package:polish_dictionary/presentation/utils/language_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeWidget extends StatefulWidget {
   @override
@@ -15,6 +17,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
   final interfaceLanguage = TextEditingController();
   final translateLanguage = TextEditingController();
 
+  Future<void> updateShowWelcomeScreen(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('welcome', value);
+  }
+
   List<String> languages = [
     "Русский",
     "Английский",
@@ -23,6 +30,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
   ];
   @override
   Widget build(BuildContext context) {
+    updateShowWelcomeScreen(false);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Настройка приложения'),
@@ -48,11 +57,14 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
     );
   }
 
-  void selectedLanguage(String value) {
+  void selectedLanguage(String value, String type) {
     setState(() {
       _selectedLanguage = value;
     });
-    LanguagePreferences().saveSelectedLanguage(value);
+    if (value.isEmpty) {
+      LanguagePreferences().saveSelectedLanguage("Английский", type);
+    }
+    LanguagePreferences().saveSelectedLanguage(value, type);
   }
 
   void goToHomeScreen() {
@@ -72,7 +84,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
           listItemBuilder: (context, result) => ListTile(
             title: Text(result),
           ),
-          onChanged: (e) => selectedLanguage(e),
+          onChanged: (e) => selectedLanguage(e, "interface"),
           controller: interfaceLanguage,
         );
       case 'Выберите язык перевода':
@@ -83,7 +95,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
           listItemBuilder: (context, result) => ListTile(
             title: Text(result),
           ),
-          onChanged: (e) => selectedLanguage(e),
+          onChanged: (e) => selectedLanguage(e, "translate"),
           controller: translateLanguage,
         );
 

@@ -1,15 +1,14 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguagePreferences {
-  static const _selectedLanguageKey = 'selectedLanguage';
-
-  Future<void> saveSelectedLanguage(String languageCode) async {
+  Future<void> saveSelectedLanguage(
+      String languageCode, String typeLanguage) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_selectedLanguageKey, languageCode);
+    await prefs.setString(typeLanguage, languageCode);
   }
 
-  Future<String?> getSelectedLanguage() async {
+  Future<String?> getSelectedLanguage(String typeLanguage) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_selectedLanguageKey);
+    return prefs.getString(typeLanguage);
   }
 }
