@@ -35,6 +35,14 @@ class _CardCategoryState extends State<CardCategory> {
     return uniqueCategories;
   }
 
+  void _handleCardScreenPop() async {
+    List<Word> loadedWords = await repository.loadData();
+    for (var word in loadedWords) {
+      word.isPlaying = false;
+    }
+    await repository.saveData(loadedWords);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -58,7 +66,7 @@ class _CardCategoryState extends State<CardCategory> {
                       (MediaQuery.of(context).size.width - 16) / 3 - 8;
                   return Container(
                     color: Color.fromARGB(255, 181, 181, 181),
-                    height: 130,
+                    height: 150,
                     width: containerWidth,
                     child: CupertinoButton(
                       padding: EdgeInsets.zero,
@@ -71,20 +79,18 @@ class _CardCategoryState extends State<CardCategory> {
                                   index], // Передаем отфильтрованный список слов для выбранной категории
                             ),
                           ),
-                        );
+                        ).then((_) {
+                          // Обработка возврата из CardScreen
+                          _handleCardScreenPop();
+                        });
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            uniqueCategories[index],
-                            style: GoogleFonts.roboto(
-                              textStyle: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-                            ),
+                          Image(
+                            height: 80,
+                            image: AssetImage(
+                                "assets/${wordsList[index][index].categoryIcon}"),
                           ),
                           Text(
                             uniqueCategories[index],

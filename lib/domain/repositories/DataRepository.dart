@@ -30,14 +30,15 @@ class SharedPreferencesRepository implements DataRepository {
   }
 
   @override
-  Future<void> addWord(String sound, String word, String category, int id,
-      String translation) async {
+  Future<void> addWord(String sound, String word, String categoryIcon,
+      String category, int id, String translation) async {
     List<Word> wordList = await loadData();
 
     // Создаем новое слово
     Word newWord = Word(
       sound: sound,
       word: word,
+      categoryIcon: categoryIcon,
       category: category,
       id: id,
       isFavorite: false,

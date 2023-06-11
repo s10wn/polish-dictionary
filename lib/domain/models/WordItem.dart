@@ -1,6 +1,7 @@
 class Word {
   int id;
   String sound;
+  String categoryIcon;
   String word;
   String translation;
   String category;
@@ -11,6 +12,7 @@ class Word {
     required this.id,
     required this.sound,
     required this.word,
+    required this.categoryIcon,
     required this.translation,
     required this.category,
     this.isFavorite = false,
@@ -21,6 +23,7 @@ class Word {
     return {
       'sound': sound,
       'word': word,
+      'categoryIcon': categoryIcon,
       'category': category,
       'id': id,
       'isFavorite': isFavorite,
@@ -33,6 +36,7 @@ class Word {
     return Word(
       sound: json['sound'],
       word: json['word'],
+      categoryIcon: json['categoryIcon'],
       category: json['category'],
       id: json['id'],
       isFavorite: json['isFavorite'],

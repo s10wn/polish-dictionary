@@ -14,13 +14,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Future<void> setWord() async {
     DataRepository repository = SharedPreferencesRepository();
     for (int i = 0; i < 10; i++) {
-      String sound = 'звук_$i';
+      String sound = 'sound.mp3';
       String word = 'слово_$i';
+      String categoryIcon = 'speak.png';
       String category = (i % 2 == 0) ? 'Категория A' : 'Категория B';
       int id = i;
       String translation = 'Перевод $i';
 
-      await repository.addWord(sound, word, category, id, translation);
+      await repository.addWord(
+          sound, word, categoryIcon, category, id, translation);
     }
   }
 

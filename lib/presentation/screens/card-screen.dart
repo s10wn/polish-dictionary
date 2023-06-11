@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:polish_dictionary/data/repositories/SharedPreferencesRepository.dart';
 import 'package:polish_dictionary/domain/models/WordItem.dart';
+import 'package:polish_dictionary/domain/repositories/DataRepository.dart';
 import 'package:polish_dictionary/presentation/widgets/word.dart';
 
 class CardScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class CardScreen extends StatefulWidget {
 
 class _CardScreenState extends State<CardScreen> {
   late TextEditingController controller;
+  final DataRepository repository = SharedPreferencesRepository();
 
   @override
   void initState() {

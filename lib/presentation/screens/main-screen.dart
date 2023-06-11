@@ -43,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: const [
+        children: [
           HomeScreen(),
           FavoriteScreen(),
           SettingScreen(),

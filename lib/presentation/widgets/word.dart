@@ -27,6 +27,9 @@ class _WordListWidgetState extends State<WordListWidget> {
 
   @override
   void initState() {
+    setState(() {
+      isPlaying = widget.wordList.isPlaying;
+    });
     super.initState();
   }
 
@@ -38,15 +41,14 @@ class _WordListWidgetState extends State<WordListWidget> {
   }
 
   @override
-  void dispose() {
-    audioPlayer.dispose();
+  void dispose() async {
     super.dispose();
+    audioPlayer.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // List<Word> wordsList = widget.wordList;
-
+    print(widget.wordList.isPlaying);
     void toggleFavorite() async {
       setState(() {
         widget.wordList.isFavorite = !widget.wordList.isFavorite;
@@ -56,14 +58,11 @@ class _WordListWidgetState extends State<WordListWidget> {
     }
 
     void playSound() async {
-      widget.wordList.isPlaying = !widget.wordList.isPlaying;
-
-      await repository.updatePlayingState(
-          widget.wordList.id, widget.wordList.isPlaying);
+      await repository.updatePlayingState(widget.wordList.id, isPlaying);
       setAudio(widget.wordList.sound);
       audioPlayer.onPlayerStateChanged.listen((event) {
         setState(() {
-          widget.wordList.isPlaying = event == PlayerState.playing;
+          isPlaying = event == PlayerState.playing;
         });
       });
       if (isPlaying) {
@@ -81,8 +80,7 @@ class _WordListWidgetState extends State<WordListWidget> {
             children: [
               CupertinoButton(
                 onPressed: () => playSound(),
-                child: Icon(
-                    widget.wordList.isPlaying ? Icons.pause : Icons.play_arrow),
+                child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
               ),
               const SizedBox(
                 width: 30,
