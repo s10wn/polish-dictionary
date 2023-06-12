@@ -66,10 +66,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 color: Colors.red,
               ),
               onPressed: () async {
-                setState(() {
-                  word.isFavorite = !word.isFavorite;
-                });
-                await repository.updateFavoriteState(word.id, word.isFavorite);
+                // setState(() {
+                //   word.isFavorite = !word.isFavorite;
+                // });
+                // await repository.updateFavoriteState(word.id, word.isFavorite);
               },
             ),
           ),

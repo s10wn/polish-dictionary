@@ -1,25 +1,32 @@
 import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:polish_dictionary/data/repositories/SharedPreferencesRepository.dart';
 import 'package:polish_dictionary/domain/models/WordItem.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesRepository implements DataRepository {
-  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  late SharedPreferences _sharedPreferences;
+  static const String dataAddedKey = 'dataAdded';
+  SharedPreferencesRepository() {
+    _initSharedPreferences();
+  }
+
+  Future<void> _initSharedPreferences() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+  }
 
   @override
   Future<void> saveData(List<Word> data) async {
+    await _initSharedPreferences(); // Инициализируем SharedPreferences перед использованием
     List<Map<String, dynamic>> wordListData =
         data.map((word) => word.toJson()).toList();
-    await secureStorage.write(
-      key: 'wordList',
-      value: jsonEncode(wordListData),
-    );
+    String encodedData = jsonEncode(wordListData);
+    await _sharedPreferences.setString('wordList', encodedData);
   }
 
   @override
   Future<List<Word>> loadData() async {
-    String? jsonData = await secureStorage.read(key: 'wordList');
+    await _initSharedPreferences(); // Инициализируем SharedPreferences перед использованием
+    String? jsonData = _sharedPreferences.getString('wordList');
     if (jsonData != null) {
       List<dynamic> decodedData = jsonDecode(jsonData);
       List<Word> data = decodedData.map((item) => Word.fromJson(item)).toList();
@@ -89,13 +96,21 @@ class SharedPreferencesRepository implements DataRepository {
 
   @override
   Future<List<Word>> getFavoriteWords() async {
-    String? jsonData = await secureStorage.read(key: 'wordList');
-    if (jsonData != null) {
-      List<dynamic> decodedData = json.decode(jsonData);
-      List<Word> data = decodedData.map((item) => Word.fromJson(item)).toList();
-      List<Word> favoriteWords = data.where((word) => word.isFavorite).toList();
-      return favoriteWords;
-    }
-    return [];
+    List<Word> wordList = await loadData();
+    List<Word> favoriteWords =
+        wordList.where((word) => word.isFavorite).toList();
+    return favoriteWords;
+  }
+
+  @override
+  Future<bool> isDataAdded() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(dataAddedKey) ?? false;
+  }
+
+  @override
+  Future<void> setDataAdded(bool isAdded) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(dataAddedKey, isAdded);
   }
 }

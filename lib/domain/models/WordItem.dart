@@ -1,18 +1,18 @@
 class Word {
-  int id;
-  String sound;
-  String categoryIcon;
+  final int id;
+  final String sound;
+  final String categoryIcon;
   String word;
-  String translation;
-  String category;
+  final String translation;
+  final String category;
   bool isFavorite;
   bool isPlaying;
 
   Word({
     required this.id,
     required this.sound,
-    required this.word,
     required this.categoryIcon,
+    required this.word,
     required this.translation,
     required this.category,
     this.isFavorite = false,
@@ -26,8 +26,8 @@ class Word {
       'categoryIcon': categoryIcon,
       'category': category,
       'id': id,
-      'isFavorite': isFavorite,
-      'isPlaying': isPlaying,
+      'isFavorite': isFavorite ? 1 : 0,
+      'isPlaying': isPlaying ? 1 : 0,
       'translation': translation,
     };
   }
@@ -39,9 +39,15 @@ class Word {
       categoryIcon: json['categoryIcon'],
       category: json['category'],
       id: json['id'],
-      isFavorite: json['isFavorite'],
-      isPlaying: json['isPlaying'],
+      isFavorite: json['isFavorite'] == 1,
+      isPlaying: json['isPlaying'] == 1,
       translation: json['translation'],
     );
+  }
+  @override
+  String toString() {
+    return 'Word{id: $id, sound: $sound, word: $word, categoryIcon: $categoryIcon, '
+        'translation: $translation, category: $category, isFavorite: $isFavorite, '
+        'isPlaying: $isPlaying}';
   }
 }

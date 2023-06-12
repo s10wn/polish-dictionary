@@ -12,8 +12,6 @@ class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
 
   void restartApp() async {
-    final storage = FlutterSecureStorage();
-    await storage.delete(key: 'wordList');
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
   }
@@ -25,18 +23,10 @@ class SettingScreen extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: ListView(
-            physics: PageScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.red),
-                child: Center(child: Text("ADS")),
-              ),
-              SizedBox(
-                height: 50,
-              ),
               SettingsGroup(
                 items: [
                   SettingsItem(
@@ -47,7 +37,7 @@ class SettingScreen extends StatelessWidget {
                     subtitle: "Выберите язык интерфейса",
                   ),
                   SettingsItem(
-                    onTap: null,
+                    onTap: () => {},
                     icons: Icons.language_sharp,
                     iconStyle: IconStyle(
                       iconsColor: Colors.white,
@@ -84,7 +74,7 @@ class SettingScreen extends StatelessWidget {
               SettingsGroup(
                 items: [
                   SettingsItem(
-                    onTap: null,
+                    onTap: () => {},
                     icons: Icons.delete_outline,
                     iconStyle: IconStyle(
                       backgroundColor: Colors.purple,
@@ -93,7 +83,7 @@ class SettingScreen extends StatelessWidget {
                     subtitle: "Удалить все слова из избранного",
                   ),
                   SettingsItem(
-                    onTap: () => restartApp(),
+                    onTap: () => {restartApp()},
                     icons: Icons.restore,
                     iconStyle: IconStyle(
                       backgroundColor: Colors.purple,

@@ -8,4 +8,7 @@ abstract class DataRepository {
   Future<void> updateFavoriteState(int id, bool isFavorite);
   Future<void> updatePlayingState(int id, bool isPlaying);
   Future<List<Word>> getFavoriteWords();
+  Future<bool> isDataAdded();
+  Future<void> setDataAdded(bool isAdded);
 }
+// Error: LateInitializationError: Field '_sharedPreferences@337029860' has not been initialized.

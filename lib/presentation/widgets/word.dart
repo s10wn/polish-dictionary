@@ -35,6 +35,7 @@ class _WordListWidgetState extends State<WordListWidget> {
 
   Future setAudio(String audio) async {
     if (audio.isNotEmpty) {
+      print(audio);
       audioPlayer.setReleaseMode(ReleaseMode.release);
       await audioPlayer.setSourceAsset(audio);
     }
@@ -48,7 +49,6 @@ class _WordListWidgetState extends State<WordListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.wordList.isPlaying);
     void toggleFavorite() async {
       setState(() {
         widget.wordList.isFavorite = !widget.wordList.isFavorite;
